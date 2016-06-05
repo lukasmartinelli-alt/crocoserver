@@ -1,6 +1,6 @@
 """API app store"""
 from flask import Flask, jsonify
-import package
+from . import package
 
 API_V1 = '/api/v1/'
 
