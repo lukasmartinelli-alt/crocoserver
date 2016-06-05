@@ -23,6 +23,6 @@ setup(
     license='GPL-v3',
     packages=find_packages(exclude=[]),
     include_package_data=True,
-    install_requires=['docker-compose==1.7.1'],
-    scripts=['bin/crocoserver']
+    install_requires=['docker-compose==1.7.1', 'flask==0.11'],
+    scripts=['bin/croco']
 )

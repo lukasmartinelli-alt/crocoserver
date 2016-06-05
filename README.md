@@ -7,9 +7,9 @@ public app store.
 
 Things you can do with **crocoserver**:
 
+- Run your own Dropbox alternative with [Owncloud](crocoserver/packages/owncloud/)
 - Run your own wiki with [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki)
 - Run your own Slack like chat with [Mattermost](http://www.mattermost.org/)
-- Run your own Dropbox alternative with [Owncloud](https://owncloud.org/)
 - Run your own online Latex editor with [ShareLatex](http://sharelatex.com/)
 - Run your own web diagram tool with [draw.io](http://draw.io)
 - Run your own spreadsheet software with [EtherCalc](https://ethercalc.net/)
@@ -53,13 +53,5 @@ to install with a single click is straightforward.
 ### Package Format
 
 The package format is defined as the standard
-[Docker Compose File Reference](https://docs.docker.com/compose/compose-file/)
-with an additional `metadata` field containing information about the
-app package.
-
-```yaml
-metadata:
-  id: owncloud
-  name: Owncloud
-  version: 1.0
-```
+[Docker Compose File Reference](https://docs.docker.com/compose/compose-file/).
+That's all that you need to provide.

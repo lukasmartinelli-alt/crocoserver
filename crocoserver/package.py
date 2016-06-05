@@ -22,22 +22,14 @@ class AppPackage:
     """
     def __init__(self, docker_compose_path):
         self.docker_compose_path = docker_compose_path
-        self.docker_compose_content = yaml.load(self.docker_compose_path)
+        self.docker_compose_content = yaml.load(open(self.docker_compose_path))
 
     def install(self):
         self.project.up()
 
     @property
-    def metadata(self):
-        return self.docker_compose_content['metadata']
-
-    @property
     def id(self):
-        return self.metadata['id']
-
-    @property
-    def name(self):
-        return self.metadata['name']
+        return os.path.basename(os.path.dirname(self.docker_compose_path))
 
     @property
     def description(self):
@@ -45,23 +37,31 @@ class AppPackage:
 
     @property
     def project(self):
-        environment = Environment.from_env_file(self.docker_compose_path)
-        config_path = get_config_path_from_options(self.docker_compose_path,
-                                                   dict(), environment)
-        project = get_project(self.docker_compose_path, config_path)
+        project = get_project(os.path.dirname(self.docker_compose_path))
         return project
+
+    @property
+    def is_installed(self):
+        containers = self.project.containers(stopped=True)
+        return len(containers) > 0
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "is_installed": self.is_installed
+        }
 
 
 class AppStore():
     """
-    The app store relies on a directory with a docker-compose.yml and a
-    README.md file describing the package
+    The app store relies on a directory tree containing
+    docker-compose.yml files and a  README.md file describing the package
     """
     def __init__(self, package_path=PACKAGE_PATH):
-        self.apps = _find_packages(package_path)
+        self.apps = {app.id: app for app in _find_packages(package_path)}
 
 
 def _find_packages(package_path):
-    for _, _, filenames in os.walk(package_path):
+    for path, _, filenames in os.walk(package_path):
         for filename in fnmatch.filter(filenames, 'docker-compose.yml'):
-            yield AppPackage(filename)
+            yield AppPackage(os.path.join(path, filename))

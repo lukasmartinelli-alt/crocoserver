@@ -1,0 +1,11 @@
+owncloud_data:
+  image: "tianon/true"
+  volumes:
+  - /var/lib/mysql
+owncloud:
+  restart: on-failure:4
+  image: "owncloud:9.0.2-apache"
+  ports:
+  - "80"
+  volumes_from:
+  - owncloud_data
