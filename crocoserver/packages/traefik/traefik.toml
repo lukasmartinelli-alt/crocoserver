@@ -1,0 +1,7 @@
+[web]
+address = ":8080"
+
+[docker]
+domain = "localhost"
+endpoint = "unix:///var/run/docker.sock"
+watch = true
