@@ -5,8 +5,7 @@ import os
 import fnmatch
 import yaml
 
-from compose.config.environment import Environment
-from compose.cli.command import get_project, get_config_path_from_options
+from compose.cli.command import get_project
 
 
 PACKAGE_PATH = os.getenv(

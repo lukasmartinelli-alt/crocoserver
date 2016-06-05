@@ -4,7 +4,7 @@ import package
 
 API_V1 = '/api/v1/'
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 store = package.AppStore()
 
 
