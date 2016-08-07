@@ -18,7 +18,7 @@ func main() {
 			Name:  "apps",
 			Usage: "List all installed and available apps",
 			Action: func(c *cli.Context) error {
-				store := NewAppStore("./my.db")
+				store := NewAppStore()
 				w := new(tabwriter.Writer)
 				w.Init(os.Stdout, 0, 8, 1, '\t', 0)
 
@@ -34,7 +34,7 @@ func main() {
 			Name:  "install",
 			Usage: "Install app",
 			Action: func(c *cli.Context) error {
-				store := NewAppStore("./my.db")
+				store := NewAppStore()
 				appName := c.Args().First()
 				store.Install(appName)
 				return nil
@@ -44,7 +44,7 @@ func main() {
 			Name:  "uninstall",
 			Usage: "Uninstall app",
 			Action: func(c *cli.Context) error {
-				store := NewAppStore("./my.db")
+				store := NewAppStore()
 				appName := c.Args().First()
 				store.Uninstall(appName)
 				return nil
