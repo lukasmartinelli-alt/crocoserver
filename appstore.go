@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"path"
 
 	"golang.org/x/net/context"
 
+	"github.com/docker/libcompose/config"
 	"github.com/docker/libcompose/docker"
 	"github.com/docker/libcompose/project"
 	"github.com/docker/libcompose/project/options"
@@ -74,7 +76,19 @@ func (store *AppStore) Apps() []App {
 					ComposeFiles: []string{path.Join(packageDir, f.Name(), "docker-compose.yml")},
 					ProjectName:  f.Name(),
 				},
-			}, nil)
+			}, &config.ParseOptions{
+				Interpolate: true,
+				Validate:    true,
+				Postprocess: func(configs map[string]*config.ServiceConfig) (map[string]*config.ServiceConfig, error) {
+					for _, service := range configs {
+						if service.Labels == nil {
+							service.Labels = map[string]string{}
+						}
+						service.Labels["traefik.frontend.rule"] = fmt.Sprintf("Host:%s.{domain}", f.Name())
+					}
+					return configs, nil
+				},
+			})
 
 			if err == nil {
 				apps = append(apps, App{
