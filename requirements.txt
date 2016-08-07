@@ -1,2 +1,0 @@
-docker-compose==1.7.1
-flask==0.11
