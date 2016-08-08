@@ -66,7 +66,7 @@ func (store *AppStore) FindApp(appName string) *App {
 }
 
 func (store *AppStore) Apps() []App {
-	packageDir := "./packages"
+	packageDir := "./apps"
 	files, _ := ioutil.ReadDir(packageDir)
 	apps := make([]App, 0, len(files))
 	for _, f := range files {
@@ -84,7 +84,7 @@ func (store *AppStore) Apps() []App {
 						if service.Labels == nil {
 							service.Labels = map[string]string{}
 						}
-						service.Labels["traefik.frontend.rule"] = fmt.Sprintf("Host:%s.{domain}", f.Name())
+						service.Labels["traefik.frontend.rule"] = fmt.Sprintf("Host:%s.localhost", f.Name())
 					}
 					return configs, nil
 				},

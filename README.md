@@ -32,14 +32,10 @@ a local provider.
 containerized services.  Any `docker-compose.yml` file is a valid **app package**
 that can be deployed to the server.
 
-### Deploy
+### Install
 
-**crocoserver** is surprisingly easy to install.
-All you need is Python and Docker on your Linux machine.
+**crocoserver** is easy to install. All you need is to [install Docker on your Linux machine](https://docs.docker.com/linux/step_one/).
 
-1. Install Python
-2. [Install Docker](https://docs.docker.com/linux/step_one/)
-3. Install **crocoserver** with `pip install crocoserver`
 
 ### Create a new App
 
@@ -50,8 +46,46 @@ to install with a single click is straightforward.
 2. Create a `docker-compose.yml` file and add a new metadata section
 3. Create a PR to the **crocoserver** repo
 
+### Architecture
+
+The **crocoserver** is using the [libcompose library](https://godoc.org/github.com/docker/libcompose)
+to provision the actual containers from a [Compose file](https://docs.docker.com/compose/compose-file/).
+
+The available apps are all in the `apps` directory at the time of build and are shipped with the application.
+The apps are divided into two namespaces:
+- **user**: All apps that can be installed by a user
+- **system**: System level apps that are needed to run crocoserver (like the reverse proxy)
+
+Note that **crocoserver** itself is also an app. It just a system level app that manages other apps
+and configures the reverse proxy app.
+
+### How are Apps shipped
+
+As of now apps need to be present in the `apps` directory at build time since they are included as binary
+assets in the executable. In the future apps should be pulled directly from GitHub and stored in a directory
+so advanced users can make changes.
+
 ### Package Format
 
 The package format is defined as the standard
 [Docker Compose File Reference](https://docs.docker.com/compose/compose-file/).
 That's all that you need to provide.
+
+To add a new app you create a directory `apps/<app-id+` containing a single
+`docker-compose.yml` file. It will then be picked up automatically by **crocoserver**.
+
+
+### Build
+
+Package the `apps` and the `gui` as binary assets.
+
+```
+go-bindata apps/... gui/...
+```
+
+Install the go package.
+
+```
+go install
+```
+

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"text/tabwriter"
 
@@ -14,6 +15,18 @@ func main() {
 	app.Usage = "A Docker based app server for non developers"
 
 	app.Commands = []cli.Command{
+		{
+			Name:  "gui",
+			Usage: "Run a web server with a GUI",
+			Action: func(c *cli.Context) error {
+				apiContext := ApiContext{store: NewAppStore()}
+				err := apiContext.Serve(":8081")
+				if err != nil {
+					log.Fatalf("Cannot start HTTP server", err)
+				}
+				return nil
+			},
+		},
 		{
 			Name:  "apps",
 			Usage: "List all installed and available apps",
