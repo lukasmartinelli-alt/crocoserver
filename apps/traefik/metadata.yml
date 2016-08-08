@@ -1,0 +1,5 @@
+name: Traefik
+level: system
+description: A modern HTTP reverse proxy
+url: https://docs.traefik.io/
+icon: https://docs.traefik.io/img/traefik.logo.png

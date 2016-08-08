@@ -65,15 +65,19 @@ As of now apps need to be present in the `apps` directory at build time since th
 assets in the executable. In the future apps should be pulled directly from GitHub and stored in a directory
 so advanced users can make changes.
 
-### Package Format
+### App Package Format
 
-The package format is defined as the standard
-[Docker Compose File Reference](https://docs.docker.com/compose/compose-file/).
-That's all that you need to provide.
+*This is experimental. The package format is not stable yet*
 
-To add a new app you create a directory `apps/<app-id+` containing a single
-`docker-compose.yml` file. It will then be picked up automatically by **crocoserver**.
+The app package format is defined as a folder `apps/<app-id>`containing a
+[Docker Compose File ](https://docs.docker.com/compose/compose-file/) called `docker-compose.yml` and an additional `metadata.yml` file containing useful information
+about the app package.
 
+You can validate an app package with **crocoserver** CLI.
+
+```
+crocoserver validate <package-location>
+```
 
 ### Build
 

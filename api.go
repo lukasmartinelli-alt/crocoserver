@@ -15,7 +15,7 @@ type ApiContext struct {
 	store AppStore
 }
 
-type AppMetadata struct {
+type AppState struct {
 	Name        string `json:"name"`
 	IsInstalled bool   `json:"isInstalled"`
 }
@@ -39,9 +39,9 @@ func (ctx *ApiContext) Serve(addr string) error {
 // Return all current deployments
 func (ctx *ApiContext) apps(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	apps := make([]AppMetadata, 0)
+	apps := make([]AppState, 0)
 	for _, app := range ctx.store.Apps() {
-		apps = append(apps, AppMetadata{
+		apps = append(apps, AppState{
 			Name:        app.Name,
 			IsInstalled: ctx.store.IsInstalled(app.Name),
 		})
