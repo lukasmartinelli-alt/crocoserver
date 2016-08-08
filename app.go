@@ -21,11 +21,11 @@ type App struct {
 }
 
 type AppMetadata struct {
-	Name        string
-	Level       string
-	Description string
-	IconUrl     string
-	ProjectUrl  string
+	Name        string `json:"name"`
+	Level       string `json:"level"`
+	Description string `json:"description"`
+	IconUrl     string `json:"iconUrl" yaml:"icon"`
+	ProjectUrl  string `json:"projectUrl" yaml:"url"`
 }
 
 func parseProject(composePath string) (project.APIProject, error) {

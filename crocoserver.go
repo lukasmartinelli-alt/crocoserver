@@ -35,9 +35,9 @@ func main() {
 				w := new(tabwriter.Writer)
 				w.Init(os.Stdout, 0, 8, 1, '\t', 0)
 
-				fmt.Fprintln(w, "APP\tINSTALLED")
+				fmt.Fprintln(w, "APP\tINSTALLED\tLEVEL")
 				for _, app := range store.Apps() {
-					fmt.Fprintf(w, "%s\t%t\n", app.Name, store.IsInstalled(app.Name))
+					fmt.Fprintf(w, "%s\t%t\t%s\n", app.Name, store.IsInstalled(app.Name), app.Metadata.Level)
 				}
 				w.Flush()
 				return nil

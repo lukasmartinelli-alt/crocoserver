@@ -22,10 +22,24 @@
 					});
 				},
 				render: function() {
+          var buttonText="Install";
+          var buttonClass = "pure-button";
+
+          if (!this.props.isInstalled) {
+            buttonClass = buttonClass + " pure-button-primary";
+          } else {
+            buttonText="Uninstall";
+          }
 					return (
-						<div className="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-							<h2>{this.props.name}</h2>
-							<button class="pure-button" onClick={this.install}>Install</button>
+            <div className="pure-u-1-3">
+							<h2 className="app-title">{this.props.metadata.name}</h2>
+              <small>
+                <a href={this.props.metadata.projectUrl}>
+                  {this.props.metadata.projectUrl}
+                </a>
+              </small>
+              <p>{this.props.metadata.description}</p>
+              <button className={buttonClass} onClick={this.install}>{buttonText}</button>
 						</div>
 					);
 				}
@@ -46,15 +60,15 @@
 
 				render: function() {
 					var appPackages = this.state.apps.map(function(app) {
-						return <AppPackage name={app.name} />;
+            return <AppPackage appId={app.name} metadata={app.metadata} isInstalled={app.isInstalled}/>;
 					});
 
 					return (
 						<div className="pure-g">
 							<div className="pure-u-1-1">
 								<h1>crocoserver</h1>
-                {appPackages}
 							</div>
+              {appPackages}
 						</div>
 					);
 				}

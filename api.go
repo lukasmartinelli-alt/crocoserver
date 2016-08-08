@@ -16,8 +16,9 @@ type ApiContext struct {
 }
 
 type AppState struct {
-	Name        string `json:"name"`
-	IsInstalled bool   `json:"isInstalled"`
+	Name        string      `json:"name"`
+	Metadata    AppMetadata `json:"metadata"`
+	IsInstalled bool        `json:"isInstalled"`
 }
 
 // Serve Start server and register HTTP handlers on given address
@@ -43,6 +44,7 @@ func (ctx *ApiContext) apps(w http.ResponseWriter, r *http.Request) {
 	for _, app := range ctx.store.Apps() {
 		apps = append(apps, AppState{
 			Name:        app.Name,
+			Metadata:    app.Metadata,
 			IsInstalled: ctx.store.IsInstalled(app.Name),
 		})
 	}
